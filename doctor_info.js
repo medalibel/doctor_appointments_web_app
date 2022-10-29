@@ -60,6 +60,14 @@ var wilayas=[
     {"id":"58","code":"58","name":"In Guezzam", "ar_name":"عين قزام", "longitude":"19.572222", "latitude":"5.769444"}
 ]
 
+var specialties = [
+    {
+        name:'cardiology',
+        nom:'',
+        name_ar:''
+    }
+]
 
 module.exports.days = days;
 module.exports.wilayas = wilayas;
+module.exports.specialties = specialties;

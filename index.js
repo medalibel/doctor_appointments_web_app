@@ -1,5 +1,9 @@
 const express = require('express');
 const doctor_info = require('./doctor_info');
+const dao = require('./dao');
+
+dao.getAllDoctors();
+dao.close_connection();
 
 const app = express();
 app.set('view engine','ejs');
