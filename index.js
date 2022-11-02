@@ -37,7 +37,14 @@ app.post('/signup/doctor',(req,res)=>{
     }
     dao.doctorSignUp(doctor,(doctor_id)=>{
         console.log(doctor_id);
-        res.render('signup_test');
+        if(doctor_id != null){
+            console.log('signed up successfuly');
+            res.render('signup_test');
+        }
+        else{
+            console.log('error signing up');
+            res.status(400).render('signup_test');
+        }
     });
 });
 
@@ -45,16 +52,36 @@ app.get('/login/doctor',(req,res)=>{
     res.render('login_test');
 });
 app.post('/login/doctor',(req,res)=>{
-    if(!req.body.email || !req.body.password){
+    let email = req.body.email;
+    let password = req.body.password;
+    if(!email || !password){
         res.status(400).render('login_test');
     }
     else{
-        dao.doctorLogIn(req.body.email,(rows)=>{
-            console.log(rows);
-            res.status(200).render('login_test');
+        dao.doctorLogIn(email,(rows)=>{
+            if(rows == null || rows.length ==0){
+                console.log('no account with this email');
+                res.status(400).render('login_test');
+            }
+            else{
+                if(rows[0].password == password){
+                    res.render('login_test');
+                    console.log(rows[0]);
+                }
+                else{
+                    res.status(400).render('login_test');
+                    console.log('wrong password');
+                }
+                
+            }
+            
         });
         
     }
+});
+
+app.get('/profile/doctor',(req,res)=>{
+    res.render('doctor_profile_test');
 });
 
 
