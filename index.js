@@ -10,6 +10,8 @@ const app = express();
 app.set('view engine','ejs');
 
 const oneDay = 1000*60*60*24;
+const doctor_account = "doctor_account";
+const client_account = "client_account";
 app.set('trust proxy', 1);
 app.use(sessions({
     secret:'$this&is&my&secret&key$',
@@ -28,10 +30,10 @@ app.use(cookie_parser());
 
 
 
-var  sessionChecker = (req,res,next) => {
+var  doctorSessionChecker = (req,res,next) => {
     console.log('session checker : '+req.session.id);
     console.log(req.session);
-    if(req.session.profile){
+    if(req.session.profile && req.session.account_type == doctor_account){
         console.log('found user session');
         next();
     }else{
@@ -66,6 +68,14 @@ app.post('/signup/doctor',(req,res)=>{
         console.log(doctor_id);
         if(doctor_id != null){
             console.log('signed up successfuly');
+            req.session.profile = {
+                id:doctor_id,
+                email : doctor.email,
+                first_name : doctor.first_name,
+                last_name : doctor.last_name,
+                specialty : doctor.specialty
+            };
+            req.session.account_type = doctor_account;
             res.redirect('/account/doctor');
         }
         else{
@@ -102,6 +112,7 @@ app.post('/login/doctor',(req,res)=>{
                     };
                     
                     req.session.profile = profile;
+                    req.session.account_type = doctor_account;
                     res.redirect('/account/doctor');
                     
                 }
@@ -117,8 +128,12 @@ app.post('/login/doctor',(req,res)=>{
     }
 });
 
-app.get('/account/doctor',sessionChecker,(req,res)=>{
+app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
+    console.log('logged in as '+req.session.account_type);
+    dao.getDoctorInformation(req.session.profile.id,(rows)=>{
+        console.log(rows);
+    });
     console.log(req.session.profile);
     res.render('doctor_profile_test');
 });
