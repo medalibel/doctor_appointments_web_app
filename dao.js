@@ -22,13 +22,30 @@ function getAllDoctors(){
     });
 }
 function getDoctorInformation(doctor_id,callback){
-    /* TODO 
-        select from doctor name last_name specialty
-        and from clinic all information
-        and select working days
-        return all this info as doctor inforamtion object
-    */
-
+    
+    let query = "select doctor.id, doctor.email, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.is_working"+
+        " FROM doctor INNER JOIN clinic_info ON doctor.id = clinic_info.doctor_id WHERE doctor.id =?";
+    db.all(query,doctor_id,(err,rows)=>{
+        if(err){
+            console.log(err);
+            callback(null);
+        }
+        else{
+            let days_query = 'select day,start,finish from working_days where doctor_id=?';
+            db.all(days_query,doctor_id,(days_err,days)=>{
+                if(days_err){
+                    console.log(days_err);
+                    callback(null);
+                }
+                else{
+                    let doc_info = rows[0];
+                    doc_info.working_days = days;
+                    callback(doc_info);
+                }
+            });
+            
+        }
+    });
     
 }
 function doctorLogIn(email,callback){
@@ -91,5 +108,6 @@ module.exports = {
     close_connection,
     getAllDoctors,
     doctorLogIn,
-    doctorSignUp
+    doctorSignUp,
+    getDoctorInformation
 }
