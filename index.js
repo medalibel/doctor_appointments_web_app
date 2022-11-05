@@ -33,9 +33,15 @@ app.use(cookie_parser());
 var  doctorSessionChecker = (req,res,next) => {
     console.log('session checker : '+req.session.id);
     console.log(req.session);
-    if(req.session.profile && req.session.account_type == doctor_account){
-        console.log('found user session');
-        next();
+    if(req.session.profile){
+        if(req.session.profile.type == doctor_account){
+            console.log('found user session');
+            next();
+        }
+        else{
+            console.log('only allowed for doctor accounts ');
+            res.redirect('/');
+        }
     }else{
         console.log('session not found');
         res.redirect('/login/doctor');
@@ -70,12 +76,8 @@ app.post('/signup/doctor',(req,res)=>{
             console.log('signed up successfuly');
             req.session.profile = {
                 id:doctor_id,
-                email : doctor.email,
-                first_name : doctor.first_name,
-                last_name : doctor.last_name,
-                specialty : doctor.specialty
+                type:doctor_account
             };
-            req.session.account_type = doctor_account;
             res.redirect('/account/doctor');
         }
         else{
@@ -92,6 +94,7 @@ app.post('/login/doctor',(req,res)=>{
     let email = req.body.email;
     let password = req.body.password;
     if(!email || !password){
+        console.log('email and password required');
         res.status(400).render('login_test');
     }
     else{
@@ -101,24 +104,19 @@ app.post('/login/doctor',(req,res)=>{
                 res.status(400).render('login_test');
             }
             else{
-                if(rows[0].password == password){
+                let account = rows[0];
+                if(account.password == password){
                     var profile = {
-                        id : rows[0].id,
-                        email : rows[0].email,
-                        first_name : rows[0].first_name,
-                        last_name : rows[0].last_name,
-                        specialty : rows[0].specialty
-
+                        id : account.id,
+                        type : doctor_account
                     };
                     
                     req.session.profile = profile;
-                    req.session.account_type = doctor_account;
                     res.redirect('/account/doctor');
-                    
                 }
                 else{
-                    res.status(400).render('login_test');
                     console.log('wrong password');
+                    res.status(400).render('login_test');   
                 }
                 
             }
@@ -130,13 +128,15 @@ app.post('/login/doctor',(req,res)=>{
 
 app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
-    console.log('logged in as '+req.session.account_type);
-    dao.getDoctorInformation(req.session.profile.id,(rows)=>{
-        console.log(rows);
+    console.log('logged in as '+req.session.profile.type);
+    dao.getDoctorInformation(req.session.profile.id,(doc_info)=>{
+        console.log(doc_info);
+        res.send(doc_info);
     });
-    console.log(req.session.profile);
-    res.render('doctor_profile_test');
+    //console.log(req.session.profile);
+    //res.render('doctor_profile_test');
 });
+
 app.get('/logout',(req,res)=>{
     req.session.destroy((err)=>{
         if(!err)
