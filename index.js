@@ -131,7 +131,8 @@ app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     console.log('logged in as '+req.session.profile.type);
     dao.getDoctorInformation(req.session.profile.id,(doc_info)=>{
         console.log(doc_info);
-        res.send(doc_info);
+        //res.send(doc_info);
+        res.render('doctor_profile_test',doc_info);
     });
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
