@@ -2,9 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sessions = require('express-session');
 const cookie_parser = require('cookie-parser');
+const sqlite = require('sqlite3').verbose();
+
+let db = new sqlite.Database('./app_data.db',(err)=>{
+    if(err)
+        console.log(err);
+    else
+        console.log("connected to sqlitedb");
+});
 
 const doctor_info = require('./doctor_info');
-const dao = require('./dao');
+const doctor_dao = require('./dao/doctor_dao');
 
 const app = express();
 app.set('view engine','ejs');
@@ -75,7 +83,7 @@ app.post('/signup/doctor',(req,res)=>{
         password:req.body.password,
         specialty:req.body.specialty
     }
-    dao.doctorSignUp(doctor,(doctor_id)=>{
+    doctor_dao.doctorSignUp(db,doctor,(doctor_id)=>{
         console.log(doctor_id);
         if(doctor_id != null){
             console.log('signed up successfuly');
@@ -108,7 +116,7 @@ app.post('/login/doctor',(req,res)=>{
         res.status(400).render('login_test');
     }
     else{
-        dao.doctorLogIn(email,(rows)=>{
+        doctor_dao.doctorLogIn(db,email,(rows)=>{
             if(rows == null || rows.length ==0){
                 console.log('no account with this email');
                 res.status(400).render('login_test');
@@ -139,7 +147,7 @@ app.post('/login/doctor',(req,res)=>{
 app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
     console.log('logged in as '+req.session.profile.type);
-    dao.getDoctorInformation(req.session.profile.id,(doc_info)=>{
+    doctor_dao.getDoctorInformation(db,req.session.profile.id,(doc_info)=>{
         console.log(doc_info);
         //res.send(doc_info);
         res.render('doctor_profile',doc_info);
@@ -170,7 +178,7 @@ app.post('/account/doctor/clinic',doctorSessionChecker,(req,res)=>{
     console.log(clinic_info);
     
     let doctor_id = req.session.profile.id;
-    dao.updateClinicInfo(doctor_id,clinic_info,(err)=>{
+    doctor_dao.updateClinicInfo(db,doctor_id,clinic_info,(err)=>{
         if(err){
             console.log('could not update clinic info');
             res.status(500).send({
@@ -182,13 +190,11 @@ app.post('/account/doctor/clinic',doctorSessionChecker,(req,res)=>{
             });
         }
     });
-
-
 });
 
 function isWorkingStatusValid(status){
     let s = Number(status);
-    if(s === dao.isWorking || s === dao.notWorking)
+    if(s === doctor_dao.isWorking || s === doctor_dao.notWorking)
         return true;
     else
         return false;
