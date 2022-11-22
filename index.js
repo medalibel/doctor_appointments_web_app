@@ -12,6 +12,7 @@ app.set('view engine','ejs');
 const oneDay = 1000*60*60*24;
 const doctor_account = "doctor_account";
 const client_account = "client_account";
+
 app.set('trust proxy', 1);
 app.use(sessions({
     secret:'$this&is&my&secret&key$',
@@ -60,6 +61,10 @@ app.get('/login',(req,res)=>{
 });
 
 app.get('/signup/doctor',(req,res)=>{
+    if(req.session.profile){
+        res.redirect('/account/doctor');
+        return;
+    }
     res.render('signup_test');
 });
 app.post('/signup/doctor',(req,res)=>{
@@ -88,9 +93,14 @@ app.post('/signup/doctor',(req,res)=>{
 });
 
 app.get('/login/doctor',(req,res)=>{
+    if(req.session.profile){
+        res.redirect('/account/doctor');
+        return;
+    }
     res.render('login_test');
 });
 app.post('/login/doctor',(req,res)=>{
+    
     let email = req.body.email;
     let password = req.body.password;
     if(!email || !password){
@@ -132,12 +142,64 @@ app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     dao.getDoctorInformation(req.session.profile.id,(doc_info)=>{
         console.log(doc_info);
         //res.send(doc_info);
-        res.render('doctor_profile_test',doc_info);
+        res.render('doctor_profile',doc_info);
     });
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
 });
+app.post('/account/doctor/clinic',doctorSessionChecker,(req,res)=>{
 
+    let clinic_info={
+        wilaya : req.body.wilaya,
+        address : req.body.address,
+        contact_num : req.body.contact_num,
+        working_status : req.body.working_status,
+        avg_time : req.body.avg_time
+    };
+    console.log(clinic_info);
+    if(!isWorkingStatusValid(clinic_info.working_status) || !isWilayaValid(clinic_info.wilaya)){
+        console.log('invalid working status or wilaya !!!!');
+            
+        res.status(500).send({
+            error:'enter a valid working status or wilaya'
+        });
+        return;
+    }
+    clinic_info.wilaya = Number(clinic_info.wilaya);
+    clinic_info.working_status = Number(clinic_info.working_status);
+    console.log(clinic_info);
+    
+    let doctor_id = req.session.profile.id;
+    dao.updateClinicInfo(doctor_id,clinic_info,(err)=>{
+        if(err){
+            console.log('could not update clinic info');
+            res.status(500).send({
+                error:'error while updating clinic info'
+            });
+        }else{
+            res.status(200).send({
+                result:'ok'
+            });
+        }
+    });
+
+
+});
+
+function isWorkingStatusValid(status){
+    let s = Number(status);
+    if(s === dao.isWorking || s === dao.notWorking)
+        return true;
+    else
+        return false;
+}
+function isWilayaValid(wilaya){
+    let w = Number(wilaya);
+    if(w >0 && w <59)
+        return true;
+    
+    return false;
+}
 app.get('/logout',(req,res)=>{
     req.session.destroy((err)=>{
         if(!err)
