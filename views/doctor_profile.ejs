@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile</title>
+    <style>
+        input{
+            display: block;
+            margin-bottom: 8px;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Profile</h1>
+        <p><%= first_name %></p>
+        <p><%= last_name %></p>
+        <p><%= specialty %></p>
+        <p><%= email %></p>
+        <form action="/doctor/profile/password" method="post">
+            <input name="old_pass" type="text" placeholder="old password" required>
+            <input name="new_pass" type="text" placeholder="new password" required>
+            <input type="submit">
+        </form>
+        <hr>
+
+        <h1>Clinic Info</h1>
+        <form action="/account/doctor/clinic" method="post">
+            <label for="wilaya">Wilaya</label>
+            <input name="wilaya" type="text" value= <%= wilaya %> required>
+            
+            <label for="address">Address</label>
+            <input name="address" type="text" value=<%= address %> required>
+            
+            <label for="contact_num">Contact num </label>
+            <input name="contact_num" type="text" value=<%= contact_num %> required>
+            
+            <label for="avg_time">Average Session Time</label>
+            <input name="avg_time" type="text" value=<%= avg_time %> required>
+            
+            <label for="working_status">Working status</label>
+            <input name="working_status" type="text" value=<%= working_status %> required>
+            <input type="submit">
+        </form>
+        
+        <hr>
+
+        <h1>Working days</h1>
+        <form action="doctor/workingdays" method="post">
+            <input type="text" placeholder="day">
+            <input type="text" placeholder="start time">
+            <input type="text" placeholder="end time">
+            <input type="submit">
+        </form>
+        <ul>
+            <li>
+                <p>day</p>
+                <p>start</p>
+                <p>end</p>
+                <button>update</button>
+                <button>delete</button>
+            </li>
+        </ul>
+    </div>
+    
+</body>
+</html>
