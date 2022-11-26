@@ -53,7 +53,7 @@ var  doctorSessionChecker = (req,res,next) => {
         }
     }else{
         console.log('session not found');
-        res.redirect('/login/doctor');
+        res.redirect('/doctor/login');
     }
 }
 
@@ -68,14 +68,14 @@ app.get('/login',(req,res)=>{
     res.render('accountselection')
 });
 
-app.get('/signup/doctor',(req,res)=>{
+app.get('/doctor/signup',(req,res)=>{
     if(req.session.profile){
-        res.redirect('/account/doctor');
+        res.redirect('/doctor/account');
         return;
     }
     res.render('signup_test');
 });
-app.post('/signup/doctor',(req,res)=>{
+app.post('/doctor/signup',(req,res)=>{
     let doctor={
         first_name:req.body.first_name,
         last_name:req.body.last_name,
@@ -91,7 +91,7 @@ app.post('/signup/doctor',(req,res)=>{
                 id:doctor_id,
                 type:doctor_account
             };
-            res.redirect('/account/doctor');
+            res.redirect('/doctor/account');
         }
         else{
             console.log('error signing up');
@@ -100,14 +100,14 @@ app.post('/signup/doctor',(req,res)=>{
     });
 });
 
-app.get('/login/doctor',(req,res)=>{
+app.get('/doctor/login',(req,res)=>{
     if(req.session.profile){
-        res.redirect('/account/doctor');
+        res.redirect('/doctor/account');
         return;
     }
     res.render('login_test');
 });
-app.post('/login/doctor',(req,res)=>{
+app.post('/doctor/login',(req,res)=>{
     
     let email = req.body.email;
     let password = req.body.password;
@@ -130,7 +130,7 @@ app.post('/login/doctor',(req,res)=>{
                     };
                     
                     req.session.profile = profile;
-                    res.redirect('/account/doctor');
+                    res.redirect('/doctor/account');
                 }
                 else{
                     console.log('wrong password');
@@ -144,7 +144,7 @@ app.post('/login/doctor',(req,res)=>{
     }
 });
 
-app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
+app.get('/doctor/account',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
     console.log('logged in as '+req.session.profile.type);
     doctor_dao.getDoctorInformation(db,req.session.profile.id,(doc_info)=>{
@@ -155,7 +155,13 @@ app.get('/account/doctor',doctorSessionChecker,(req,res)=>{
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
 });
-app.post('/account/doctor/clinic',doctorSessionChecker,(req,res)=>{
+app.get('/doctor/account/information',doctorSessionChecker,(req,res)=>{
+    let id = req.session.profile.id;
+    doctor_dao.getDoctorInformation(db,id,(doc_info)=>{
+        res.status(200).send(doc_info);
+    });
+});
+app.post('/doctor/clinic',doctorSessionChecker,(req,res)=>{
 
     let clinic_info={
         wilaya : req.body.wilaya,
@@ -191,6 +197,31 @@ app.post('/account/doctor/clinic',doctorSessionChecker,(req,res)=>{
         }
     });
 });
+app.post("/doctor/password",doctorSessionChecker,(req,res)=>{
+    var id = req.session.profile.id;
+    var oldPass = req.body.old_pass;
+    var newPass = req.body.new_pass;
+    if(!oldPass || !newPass){
+        res.status(500).send({
+            error:"input values are required"
+        });
+        return;
+    }
+    doctor_dao.changePassword(db,id,oldPass,newPass,(err)=>{
+
+        if(err){
+            console.log(err);
+            res.status(500).send({
+                error:"wrong password"
+            });
+            return;
+        }
+        res.status(200).send({
+            result:"ok"
+        });
+        
+    });
+});
 
 function isWorkingStatusValid(status){
     let s = Number(status);
@@ -211,7 +242,7 @@ app.get('/logout',(req,res)=>{
         if(!err)
             console.log('logged out and session destroyed');
     });
-    res.redirect('/login/doctor');
+    res.redirect('/doctor/login');
 });
 
 app.listen(3000,()=>{
