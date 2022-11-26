@@ -111,6 +111,98 @@ function updateClinicInfo(db,doctor_id,clinic_info,callback){
 
 }
 
+function changePassword(db,id,oldPass,newPass,callback){
+    var select = "select password from doctor where id=?";
+    
+    db.get(select,[id],(err,row)=>{
+        if(err){
+            callback(err);
+            return;
+        }
+        if(!row){
+            callback({
+                error:"no doctor with the given id"
+            });
+            return;
+        }
+        if(oldPass !== row.password){
+            callback({
+                error:"wrong password"
+            });
+            return;
+        }
+        let sql = 'update doctor set password =? where id=? and password=?';
+        let password_data = [
+            newPass,
+            id,
+            oldPass
+        ];
+        db.run(sql,password_data,(err)=>{
+            if(err){
+                callback(err);
+                return;
+            }
+            callback(null);
+        });
+    });
+
+    
+}
+function addWorkingDay(id,workingDay,callback){
+    let sql = 'insert into working_days values(?,?,?,?)';
+    let data = [
+        id,
+        workingDay.day,
+        workingDay.start,
+        workingDay.finish
+    ];
+    db.run(sql,data,(err)=>{
+        if(err){
+            console.log(err);
+            callback(err);
+            return;
+        }
+        console.log('day added '+workingDay.day);
+        callback(null);
+    });
+}
+function deleteWorkingDay(id,day,callback){
+    let sql = 'delete from working_days where doctor_id=? and day=?';
+    let data=[
+        id,
+        day
+    ];
+    db.run(sql,data,(err)=>{
+        if(err){
+            console.log(err);
+            callback(err);
+            return;
+        }
+        console.log('day ' +day+' deleted');
+        callback(null);
+    });
+}
+function updateWorkingDay(id,workingDay,callback){
+
+    let sql = 'update working_days set start=?,finish=? where doctor_id=? and day=?';
+    let data = [
+        workingDay.start,
+        workingDay.finish,
+        id,
+        workingDay.day
+    ];
+    db.run(sql,data,(err)=>{
+        if(err){
+            console.log(err);
+            callback(err);
+            return;
+        }
+        console.log('day updated '+workingDay.day);
+        callback(null);
+    });
+}
+
+
 module.exports = {
     isWorking,
     notWorking,
@@ -119,4 +211,5 @@ module.exports = {
     doctorSignUp,
     getDoctorInformation,
     updateClinicInfo,
+    changePassword
 }
