@@ -17,7 +17,8 @@ function getDoctorInformation(db,doctor_id,callback){
             callback(null);
         }
         else{
-            let days_query = 'select day,start,finish from working_days where doctor_id=?';
+            let days_query = 'select working_days.day_id, days.day, working_days.start, working_days.finish from '
+            +'working_days inner join days where working_days.day_id = days.id and working_days.doctor_id=? order by day_id ASC';
             db.all(days_query,doctor_id,(days_err,days)=>{
                 if(days_err){
                     console.log(days_err);
@@ -110,6 +111,16 @@ function updateClinicInfo(db,doctor_id,clinic_info,callback){
     });
 
 }
+function changeWorkingStatus(db,id,status,callback){
+    let sql = 'update clinic_info set working_status = ? where doctor_id = ?';
+    db.run(sql,[status,id],(err)=>{
+        if(err){
+            callback(err);
+            return;
+        }
+        callback(null);
+    });
+}
 
 function changePassword(db,id,oldPass,newPass,callback){
     var select = "select password from doctor where id=?";
@@ -148,60 +159,67 @@ function changePassword(db,id,oldPass,newPass,callback){
 
     
 }
-function addWorkingDay(id,workingDay,callback){
+function addWorkingDay(db,id,workingDay,callback){
     let sql = 'insert into working_days values(?,?,?,?)';
     let data = [
         id,
-        workingDay.day,
+        workingDay.day_id,
         workingDay.start,
         workingDay.finish
     ];
     db.run(sql,data,(err)=>{
         if(err){
-            console.log(err);
             callback(err);
             return;
         }
-        console.log('day added '+workingDay.day);
+        console.log('day added '+workingDay.day_id);
         callback(null);
     });
 }
-function deleteWorkingDay(id,day,callback){
-    let sql = 'delete from working_days where doctor_id=? and day=?';
+function deleteWorkingDay(db,doc_id,day_id,callback){
+    let sql = 'delete from working_days where doctor_id=? and day_id=?';
     let data=[
-        id,
-        day
+        doc_id,
+        day_id
     ];
     db.run(sql,data,(err)=>{
         if(err){
-            console.log(err);
             callback(err);
             return;
         }
-        console.log('day ' +day+' deleted');
+        console.log('day ' +day_id+' deleted');
         callback(null);
     });
 }
-function updateWorkingDay(id,workingDay,callback){
+function updateWorkingDay(db,doc_id,workingDay,callback){
 
-    let sql = 'update working_days set start=?,finish=? where doctor_id=? and day=?';
+    let sql = 'update working_days set start=?,finish=? where doctor_id=? and day_id=?';
     let data = [
         workingDay.start,
         workingDay.finish,
-        id,
-        workingDay.day
+        doc_id,
+        workingDay.day_id
     ];
     db.run(sql,data,(err)=>{
         if(err){
-            console.log(err);
             callback(err);
             return;
         }
-        console.log('day updated '+workingDay.day);
+        console.log('day updated '+workingDay.day_id);
         callback(null);
     });
 }
-
+function getWorkingDay(db,doc_id,day_id,callback){
+    let days_query = 'select working_days.day_id,days.day,working_days.start,working_days.finish from '
+            +'working_days inner join days where working_days.day_id = days.id and working_days.doctor_id=? and days.id=?';
+            db.all(days_query,[doc_id,day_id],(err,days)=>{
+                if(err){
+                    callback(err,null);
+                    return;
+                }
+                callback(null,days[0]);
+            });
+}
 
 module.exports = {
     isWorking,
@@ -211,5 +229,10 @@ module.exports = {
     doctorSignUp,
     getDoctorInformation,
     updateClinicInfo,
-    changePassword
+    changeWorkingStatus,
+    addWorkingDay,
+    deleteWorkingDay,
+    updateWorkingDay,
+    changePassword,
+    getWorkingDay
 }

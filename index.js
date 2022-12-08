@@ -146,11 +146,10 @@ app.post('/doctor/login',(req,res)=>{
 
 app.get('/doctor/account',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
-    console.log('logged in as '+req.session.profile.type);
-    doctor_dao.getDoctorInformation(db,req.session.profile.id,(doc_info)=>{
-        console.log(doc_info);
+    doctor_dao.getDoctorInformation(db,req.session.profile.id,(docInfo)=>{
+        console.log(docInfo);
         //res.send(doc_info);
-        res.render('doctor_profile',doc_info);
+        res.render('doctor_profile',{workingDays : docInfo.working_days});
     });
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
@@ -211,7 +210,7 @@ app.post("/doctor/password",doctorSessionChecker,(req,res)=>{
 
         if(err){
             console.log(err);
-            res.status(500).send({
+            res.status(400).send({
                 error:"wrong password"
             });
             return;
@@ -220,6 +219,85 @@ app.post("/doctor/password",doctorSessionChecker,(req,res)=>{
             result:"ok"
         });
         
+    });
+});
+
+app.post('/doctor/workingdays/add',doctorSessionChecker,(req,res)=>{
+
+    var day_id = req.body.day_id;
+    var start = req.body.start;
+    var finish = req.body.finish;
+    console.log(req.body);
+    var working_day = {
+        day_id,
+        start,
+        finish
+    };
+    var doc_id = req.session.profile.id;
+    doctor_dao.addWorkingDay(db,doc_id,working_day,(err)=>{
+        if(err){
+            console.log(err);
+            res.status(400).send({
+                error:"wrong day or day exists"
+            });
+            return;
+        }
+        res.status(201).send({
+            result:'ok'
+        });
+    });
+
+});
+app.get('/doctor/workingdays/delete/:id',doctorSessionChecker,(req,res)=>{
+    var doc_id = req.session.profile.id;
+    var day_id = req.params.id;
+    console.log('trying to delete '+day_id);
+    doctor_dao.deleteWorkingDay(db,doc_id,day_id,(err)=>{
+        if(err){
+            console.log(err);
+            res.status(400).send({
+                error:"wrong day or day does not exist"
+            });
+            return;
+        }
+        res.status(200).send({
+            result:'ok'
+        });
+
+    });
+
+});
+app.get('/doctor/workingdays/update/:id',doctorSessionChecker,(req,res)=>{
+    var doc_id = req.session.profile.id;
+    var day_id = req.params.id;
+    doctor_dao.getWorkingDay(db,doc_id,day_id,(err,day)=>{
+        if(err){
+            console.log(err);
+            res.status(400).send({
+                error:"no day with given id"
+            });
+            return;
+        }
+        res.render('update_workingday',{day : day});
+    });
+    
+});
+app.post('/doctor/workingdays/update',doctorSessionChecker,(req,res)=>{
+    var dayInfo = {
+        day_id: req.body.day_id,
+        start: req.body.start,
+        finish: req.body.finish
+    }
+    var doc_id = getProfileId(req);
+    doctor_dao.updateWorkingDay(db,doc_id,dayInfo,(err)=>{
+        if(err){
+            console.log(err);
+            res.status(400).send({
+                error:"no day with given id"
+            });
+            return;
+        }
+        res.redirect('/doctor/account');
     });
 });
 
@@ -236,6 +314,9 @@ function isWilayaValid(wilaya){
         return true;
     
     return false;
+}
+function getProfileId(req){
+    return req.session.profile.id;
 }
 app.get('/logout',(req,res)=>{
     req.session.destroy((err)=>{

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+   
+</head>
+<body>
+    <h1>Update Working Day</h1>
+    <h4 id="day"><%= day.day %></h4>
+    <form action="/doctor/workingdays/update" method="post">
+        <input id="day_id" name="day_id" type="number" value ="<%= day.day_id %>">
+        <input id="start" name="start" type="text" value="<%= day.start %>">
+        <input id="finish" name="finish" type="text" value="<%= day.finish %>">
+        <input type="submit">
+    </form>
+    
+</body>
+</html>
