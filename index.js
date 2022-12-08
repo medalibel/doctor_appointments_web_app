@@ -154,6 +154,9 @@ app.get('/doctor/account',doctorSessionChecker,(req,res)=>{
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
 });
+app.get('/doctor/account/edit',doctorSessionChecker,(req,res)=>{
+    res.render('edit_profile');
+});
 app.get('/doctor/account/information',doctorSessionChecker,(req,res)=>{
     let id = req.session.profile.id;
     doctor_dao.getDoctorInformation(db,id,(doc_info)=>{

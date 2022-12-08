@@ -7,100 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
     <title>Doctor Profile</title>
-    <style>
-        input{
-            display: block;
-            margin-bottom: 8px;
-            width: 500px;
-        }
-    </style>
-    <script>
-        const url = "/doctor/account/information";
-        fetch(url)
-        .then(data=>{return data.json()})
-        .then(res=>{
-            let firstName = document.getElementById("first_name");
-            let lastName = document.getElementById("last_name");
-            let specialty = document.getElementById("specialty");
-            let email = document.getElementById("email");
-            let wilayaInput = document.getElementById("wilaya_inp");
-            let address = document.getElementById("address_inp");
-            let contact = document.getElementById("contact_inp");
-            let avgTime = document.getElementById("avg_inp");
-            let workingStatus = document.getElementById("status_inp");
-            let workingDaysContainer = document.getElementById("working_days_ul");
-            firstName.innerHTML=res.first_name;
-            lastName.innerHTML = res.last_name;
-            specialty.innerHTML = res.specialty;
-            email.innerHTML = res.email;
-            wilayaInput.value = res.wilaya;
-            address.value = res.address;
-            contact.value = res.contact_num;
-            avgTime.value = res.avg_time;
-            workingStatus.value = res.working_status;
-            /*res.working_days.forEach(day => {
-                var li = document.createElement("li");
-                var p1 = document.createElement("p");
-                var p2 = document.createElement("input");
-                var p3 = document.createElement("input");
-                var updateLink = document.createElement("a");
-                var deleteBtn = document.createElement("button");
-                p1.innerHTML = day.day;
-                p2.value = day.start;
-                p3.value = day.finish;
-                updateLink.innerHTML = "Update";
-                deleteBtn.innerHTML = "delete";
-                var updateUrl = "/doctor/workingdays/update/"+day_id;
-                //updateLink.href = updateUrl;
-                deleteBtn.onclick = ()=>{
-                    var day_id = day.day_id;
-                    console.log("delete "+day_id);
-                    
-                    fetch("/doctor/workingdays/delete/"+day_id,{method: 'DELETE'})
-                    .then(data=>{return data.json})
-                    .then(res=>{
-                        console.log(res);
-                    });
-                };
-                
-                li.appendChild(p1);
-                li.appendChild(p2);
-                li.appendChild(p3);
-                li.appendChild(updateLink);
-                li.appendChild(deleteBtn);
-                workingDaysContainer.appendChild(li);
-            });*/
-            
-        });
-        function updateClinic(){
-            console.log("update clinic on click");
-            let wilaya = document.getElementById("wilaya_inp").value;
-            let address = document.getElementById("address_inp").value;
-            let contact_num = document.getElementById("contact_inp").value;
-            let avg_time = document.getElementById("avg_inp").value;
-            let working_status = document.getElementById("status_inp").value;
-            var data={
-                wilaya,
-                address,
-                contact_num,
-                avg_time,
-                working_status
-            }
-            var param = {
-                headers:{
-                    "content-type":"application/json; charset=UTF-8"
-                },
-                body:data,
-                method:"POST"
-            };
-            fetch("/doctor/clinic",param)
-            .then(data=>{return data.json})
-            .then(res=>{
-                console.log(res);
-            });
-        }
-
-    </script>
+    
 </head>
 <body>
     <!-- <div>
@@ -161,7 +68,7 @@
         <div class="header">
 			<div class="header-left">
 				<a href="index-2.html" class="logo">
-					<img src="assets/img/logo.png" width="35" height="35" alt=""> <span>Preclinic</span>
+					<img src="/assets/img/logo.png" width="35" height="35" alt=""> <span>Preclinic</span>
 				</a>
 			</div>
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
@@ -169,25 +76,25 @@
             <ul class="nav user-menu float-right">
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src="assets/img/user.jpg" width="40" alt="Admin">
+                        <span class="user-img"><img class="rounded-circle" src="/assets/img/user.jpg" width="40" alt="Admin">
 							<span class="status online"></span></span>
                         <span>Admin</span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+						<a class="dropdown-item" href="/doctor/account">My Profile</a>
+						<a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
 						<a class="dropdown-item" href="settings.html">Settings</a>
-						<a class="dropdown-item" href="login.html">Logout</a>
+						<a class="dropdown-item" href="/logout">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="/doctor/account">My Profile</a>
+                    <a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
                     <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -238,7 +145,7 @@
                     </div>
     
                     <div class="col-sm-5 col-6 text-right m-b-30">
-                        <a href="edit-profile.html" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Edit Profile</a>
+                        <a href="/doctor/account/edit" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Edit Profile</a>
                     </div>
                 </div>
                 <div class="card-box profile-header">
@@ -247,7 +154,7 @@
                             <div class="profile-view">
                                 <div class="profile-img-wrap">
                                     <div class="profile-img">
-                                        <a href="#"><img class="avatar" src="assets/img/doctor-03.jpg" alt=""></a>
+                                        <a href="#"><img class="avatar" src="/assets/img/doctor-03.jpg" alt=""></a>
                                     </div>
                                 </div>
                                 <div class="profile-basic">
@@ -355,10 +262,10 @@
     </div>
 
 
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+	<script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/jquery.slimscroll.js"></script>
+    <script src="/assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
