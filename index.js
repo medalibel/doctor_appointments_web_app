@@ -59,7 +59,19 @@ var  doctorSessionChecker = (req,res,next) => {
 
 
 app.get('/',(req,res)=>{
-    res.render('index');
+    doctor_dao.getAllDoctors(db,(err,rows)=>{
+        if(err){
+            res.send({
+                error:"error"
+            });
+            return;
+        }
+        res.render('index',{doctors:rows});
+    });
+    
+});
+app.get('/doctor/profile/:id',(req,res)=>{
+
 });
 app.get('/signup',(req,res)=>{
     //res.render('accounttype')
@@ -149,13 +161,17 @@ app.get('/doctor/account',doctorSessionChecker,(req,res)=>{
     doctor_dao.getDoctorInformation(db,req.session.profile.id,(docInfo)=>{
         console.log(docInfo);
         //res.send(doc_info);
-        res.render('doctor_profile',{workingDays : docInfo.working_days});
+        res.render('doctor_profile',docInfo);
     });
     //console.log(req.session.profile);
     //res.render('doctor_profile_test');
 });
 app.get('/doctor/account/edit',doctorSessionChecker,(req,res)=>{
-    res.render('edit_profile');
+    doctor_dao.getDoctorInformation(db,req.session.profile.id,(docInfo)=>{
+        console.log(docInfo);
+        //res.send(doc_info);
+        res.render('edit_profile',docInfo);
+    });
 });
 app.get('/doctor/account/information',doctorSessionChecker,(req,res)=>{
     let id = req.session.profile.id;
@@ -163,7 +179,7 @@ app.get('/doctor/account/information',doctorSessionChecker,(req,res)=>{
         res.status(200).send(doc_info);
     });
 });
-app.post('/doctor/clinic',doctorSessionChecker,(req,res)=>{
+app.post('/doctor/account/edit',doctorSessionChecker,(req,res)=>{
 
     let clinic_info={
         wilaya : req.body.wilaya,
@@ -300,6 +316,21 @@ app.post('/doctor/workingdays/update',doctorSessionChecker,(req,res)=>{
             return;
         }
         res.redirect('/doctor/account');
+    });
+});
+app.get('/doctor/schedule',doctorSessionChecker,(req,res)=>{
+    var doc_id = req.session.profile.id;
+    doctor_dao.getDoctorSchedule(db,doc_id,(err,days)=>{
+
+        if(err){
+            console.log(err);
+            res.status(500).send({
+                error:"an error occured"
+            });
+        }else{
+            console.log(days);
+            res.render('doctor_schedule',{days:days});
+        }
     });
 });
 
