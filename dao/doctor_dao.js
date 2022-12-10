@@ -1,12 +1,56 @@
 const isWorking=1;
 const notWorking=0;
 
-function getAllDoctors(db){
-    //selct query should not select password
-    db.all('select * from doctor',(err,rows)=>{
-        console.log(rows);
+function getAllDoctors(db,callback){
+    //selct query should not select password or other private data
+    let query = "select doctor.id, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status"+
+        " FROM doctor INNER JOIN clinic_info ON doctor.id = clinic_info.doctor_id";
+    db.all(query,(err,rows)=>{
+        if(err){
+            callback(err,null);
+            return;
+        }
+        callback(null,rows);
     });
 }
+function getDoctorSchedule(db,doc_id,callback){
+    let days_query = 'select working_days.day_id, days.day, working_days.start, working_days.finish from '
+    +'working_days inner join days where working_days.day_id = days.id and working_days.doctor_id=? order by day_id ASC';
+    db.all(days_query,doc_id,(err,days)=>{
+        if(err){
+            callback(err,null);
+        }
+        else{
+            callback(null,days);
+        }
+    });
+}
+
+function getDetailedDoctorData(db,docId,callback){
+    let query = "select doctor.id, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status"+
+        " FROM doctor INNER JOIN clinic_info ON doctor.id = clinic_info.doctor_id WHERE doctor.id =?";
+    db.all(query,docId,(err,docs)=>{
+        if(err){
+            callback(err,null);
+        }
+        else{
+            let days_query = 'select days.day, working_days.start, working_days.finish FROM '
+            +'working_days inner join days where working_days.day_id = days.id and working_days.doctor_id=? order by day_id ASC';
+            db.all(days_query,docId,(daysErr,days)=>{
+                if(days_err){
+                    callback(daysErr,null);
+                }
+                else{
+                    let doc_info = docs[0];
+                    doc_info.working_days = days;
+                    callback(null,doc_info);
+                }
+            });
+            
+        }
+    });
+}
+
 function getDoctorInformation(db,doctor_id,callback){
     
     let query = "select doctor.id, doctor.email, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status,clinic_info.avg_time"+
@@ -234,5 +278,6 @@ module.exports = {
     deleteWorkingDay,
     updateWorkingDay,
     changePassword,
-    getWorkingDay
+    getWorkingDay,
+    getDoctorSchedule
 }

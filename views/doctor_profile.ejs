@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+
     <title>Doctor Profile</title>
     
 </head>
@@ -78,7 +82,6 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="/assets/img/user.jpg" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        <span>Admin</span>
                     </a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="/doctor/account">My Profile</a>
@@ -110,26 +113,19 @@
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li>
                         <li>
-                            <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                            <a href="/doctor/schedule"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
                         <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                            <a href="/doctor/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
                         </li>
 						<li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Secraitaire </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a href="employees.html">subOption 1</a></li>
-								<li><a href="leaves.html">subOption 2</a></li>
-								<li><a href="holidays.html">subOption 3</a></li>
+								<li><a href="employees.html">Add Secraitaire</a></li>
+								<li><a href="leaves.html">Edit Secraitaire</a></li>
 							</ul>
 						</li>
-						<li class="submenu">
-							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul>
-						</li>
+						
                         <li>
                             <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
                         </li>
@@ -154,27 +150,27 @@
                             <div class="profile-view">
                                 <div class="profile-img-wrap">
                                     <div class="profile-img">
-                                        <a href="#"><img class="avatar" src="/assets/img/doctor-03.jpg" alt=""></a>
+                                        <a href="#"><img class="avatar" src="/assets/img/doc_male.jpg" alt=""></a>
                                     </div>
                                 </div>
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0">Sara othman</h3>
-                                                <small class="text-muted">Gynecologist</small>
-                                                <div class="staff-id">Doctor ID : DR-0801</div>
+                                                <h3 class="user-name m-t-0 mb-0"><%= first_name %> <%= last_name%></h3>
+                                                <small class="text-muted"><%= specialty %></small>
+                                                <div class="staff-id">Doctor ID : DR-<%= id %></div>
                                             </div>
                                         </div>
                                         <div class="col-md-7">
                                             <ul class="personal-info">
                                                 <li>
                                                     <span class="title">Phone:</span>
-                                                    <span class="text"><a href="#">06-76-53-81-33</a></span>
+                                                    <span class="text"><a href="#"><%= contact_num %></a></span>
                                                 </li>
                                                 <li>
                                                     <span class="title">Email:</span>
-                                                    <span class="text"><a href="#">sara.othman@example.com</a></span>
+                                                    <span class="text"><a href="#"><%= email %></a></span>
                                                 </li>
                                                 <li>
                                                     <span class="title">Birthday:</span>
@@ -182,11 +178,21 @@
                                                 </li>
                                                 <li>
                                                     <span class="title">Address:</span>
-                                                    <span class="text">714 Burwell Heights Road, Bridge City, TX, 77611</span>
+                                                    <span class="text"><%= address %></span>
                                                 </li>
                                                 <li>
                                                     <span class="title">Gender:</span>
-                                                    <span class="text">Female</span>
+                                                    <span class="text">Male</span>
+                                                </li>
+                                                <li>
+                                                    <span class="title">Working Status:</span>
+                                                    <span class="text">
+                                                        <% if(working_status === 1){ %>
+                                                            Active
+                                                        <% }else if(working_status === 0){ %>
+                                                            Inactive
+                                                        <% } %>
+                                                    </span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -266,6 +272,5 @@
 	<script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/jquery.slimscroll.js"></script>
     <script src="/assets/js/app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -7,6 +7,28 @@
     <title>Document</title>
 </head>
 <body>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Specialty</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% doctors.forEach(doc=> { %>
+                <tr>
+                    <td> <%= doc.id %> </td>
+                    <td> <%= doc.first_name %> </td>
+                    <td> <%= doc.last_name %> </td>
+                    <td> <%= doc.specialty %> </td>
+                    <td> <a href="/doctor/profile/<%= doc.id %>">Visit</a> </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
     
 </body>
 </html>

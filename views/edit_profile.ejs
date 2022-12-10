@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <title>Edit Profile</title>
     <!--<style>
         input{
@@ -110,7 +114,6 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="/assets/img/user.jpg" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        <span>Admin</span>
                     </a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="profile.html">My Profile</a>
@@ -145,7 +148,7 @@
                             <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
                         <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                            <a href="/doctor/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
                         </li>
 						<li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Secraitaire </span> <span class="menu-arrow"></span></a>
@@ -176,7 +179,7 @@
                         <h4 class="page-title">Edit Profile</h4>
                     </div>
                 </div>
-                <form>
+                <form action="/doctor/account/edit" method="post">
                     <div class="card-box">
                         <h3 class="card-title">Basic Informations</h3>
                         <div class="row">
@@ -193,13 +196,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group form-focus">
                                                 <label class="focus-label">First Name</label>
-                                                <input type="text" class="form-control floating" value="John">
+                                                <input type="text" class="form-control floating" value="<%= first_name %>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group form-focus">
                                                 <label class="focus-label">Last Name</label>
-                                                <input type="text" class="form-control floating" value="Doe">
+                                                <input type="text" class="form-control floating" value="<%= last_name %>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -227,84 +230,72 @@
                             <div class="col-md-12">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Clinic Address</label>
-                                    <input type="text" class="form-control floating" value="4487 Snowbird Lane">
+                                    <input name="address" type="text" class="form-control floating" value="<%= address %>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group form-focus">
                                     <label class="focus-label">Wilaya</label>
-                                    <input type="text" class="form-control floating" value="United States">
+                                    <input name="wilaya" type="text" class="form-control floating" value="<%= wilaya %>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group form-focus">
-                                    <label class="focus-label">Phone Number</label>
-                                    <input type="text" class="form-control floating" value="631-889-3206">
+                                    <label class="focus-label">Contact Number</label>
+                                    <input name="contact_num" type="text" class="form-control floating" value="<%= contact_num %>">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Average Session Time</label>
+                                    <input name="avg_time" type="text" class="form-control floating" value="<%= avg_time %>">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group form-focus select-focus">
                                     <label class="focus-label">Working status</label>
-                                    <select class="select form-control floating">
-                                        <option value="Actif selected">Actif</option>
-                                        <option value="Inactif">Inactif</option>
+                                    <select name="working_status" class="select form-control floating">
+                                        <% if(working_status === 1){ %>
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Inactive</option>
+                                        <% }else if(working_status === 0){ %>
+                                            <option value="1" >Active</option>
+                                            <option value="0" selected>Inactive</option>
+                                        <% } %>
+                                        
+                                        
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        <div class="text-center m-t-20">
+                            <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                        </div>
                     </div>
+                </form>
+
+                <form action="/doctor/password" method="post">
+                   
                     <div class="card-box">
-                        <h3 class="card-title">Working days</h3>
+                        <h3 class="card-title">Reset Password</h3>
                         <div class="row">
+                            
                             <div class="col-md-6">
-                                <div class="form-group form-focus select-focus">
-                                    <label class="focus-label">Day</label>
-                                    <select class="select form-control floating">
-                                        <option value="Samedi selected">Samedi</option>
-                                        <option value="dimanche">Dimanche</option>
-                                        <option value="dimanche">Lundie</option>
-                                        <option value="dimanche">Mardie</option>
-                                        <option value="dimanche">Mercredi</option>
-                                        <option value="dimanche">Jeudi</option>
-                                    </select>
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Old Password</label>
+									<input name="old_pass" type="text" class="form-control floating" value="">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group form-focus">
-                                    <label class="focus-label">start time</label>
-									<input type="time" class="form-control floating" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">End time</label>
-									<input type="time" class="form-control floating" value="">
+                                    <label class="focus-label">New Password</label>
+									<input name="new_pass" type="text" class="form-control floating" value="">
                                 </div>
                             </div>
                         </div>
                         <div class="text-left m-t-10">
-                            <button class="btn btn-primary submit-btn" type="button">Ajouter</button>
+                            <button class="btn btn-primary submit-btn" type="submit">Reset</button>
                         </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Reset Password</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Old password</label>
-                                    <input type="password" class="form-control floating" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">New password</label>
-                                    <input type="password" class="form-control floating" value="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center m-t-20">
-                        <button class="btn btn-primary submit-btn" type="button">Save</button>
                     </div>
                 </form>
             </div>
