@@ -224,7 +224,6 @@ app.post("/doctor/password",doctorSessionChecker,(req,res)=>{
         
     });
 });
-
 app.post('/doctor/workingdays/add',doctorSessionChecker,(req,res)=>{
 
     var day_id = req.body.day_id;

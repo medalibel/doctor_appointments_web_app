@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/style.css">
     <title>Edit Profile</title>
     <!--<style>
         input{
@@ -110,13 +114,12 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="/assets/img/user.jpg" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        <span>Admin</span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+						<a class="dropdown-item" href="/doctor/account">My Profile</a>
+						<a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
 						<a class="dropdown-item" href="settings.html">Settings</a>
-						<a class="dropdown-item" href="login.html">Logout</a>
+						<a class="dropdown-item" href="/logout">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -145,7 +148,7 @@
                             <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
                         <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                            <a href="/doctor/doctor-schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
                         </li>
 						<li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Secraitaire </span> <span class="menu-arrow"></span></a>
@@ -176,7 +179,7 @@
                         <h4 class="page-title">Edit Profile</h4>
                     </div>
                 </div>
-                <form>
+                <form action="" method="post">
                     <div class="card-box">
                         <h3 class="card-title">Basic Informations</h3>
                         <div class="row">
@@ -253,39 +256,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Working days</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group form-focus select-focus">
-                                    <label class="focus-label">Day</label>
-                                    <select class="select form-control floating">
-                                        <option value="Samedi selected">Samedi</option>
-                                        <option value="dimanche">Dimanche</option>
-                                        <option value="dimanche">Lundie</option>
-                                        <option value="dimanche">Mardie</option>
-                                        <option value="dimanche">Mercredi</option>
-                                        <option value="dimanche">Jeudi</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">start time</label>
-									<input type="time" class="form-control floating" value="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">End time</label>
-									<input type="time" class="form-control floating" value="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-left m-t-10">
-                            <button class="btn btn-primary submit-btn" type="button">Ajouter</button>
-                        </div>
+                    <div class="text-center m-b-20">
+                        <button class="btn btn-primary submit-btn" type="submit">Save changes</button>
                     </div>
+                </form>
+                <form action="" method="post">
                     <div class="card-box">
                         <h3 class="card-title">Reset Password</h3>
                         <div class="row">
@@ -304,19 +279,19 @@
                         </div>
                     </div>
                     <div class="text-center m-t-20">
-                        <button class="btn btn-primary submit-btn" type="button">Save</button>
+                        <button class="btn btn-primary submit-btn" type="submit">Reset password</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <script src="/assets/js/jquery-3.2.1.min.js"></script>
-	<script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="/assets/js/jquery.slimscroll.js"></script>
-    <script src="/assets/js/select2.min.js"></script>
-    <script src="/assets/js/moment.min.js"></script>
-    <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/assets/js/app.js"></script>
+    <script src="/scripts/jquery-3.2.1.min.js"></script>
+	<script src="/scripts/popper.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/jquery.slimscroll.js"></script>
+    <script src="/scripts/app.js"></script>
+    <script src="/scripts/select2.min.js"></script>
+    <script src="/scripts/moment.min.js"></script>
+    <script src="/scripts/bootstrap-datetimepicker.min.js"></script>
 </body>
 </html>
