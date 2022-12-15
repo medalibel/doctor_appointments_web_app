@@ -93,7 +93,9 @@ app.post('/doctor/signup',(req,res)=>{
         last_name:req.body.last_name,
         email:req.body.email,
         password:req.body.password,
-        specialty:req.body.specialty
+        specialty:req.body.specialty,
+        birth_date:req.body.birth_date,
+        sexe:req.body.sexe
     }
     doctor_dao.doctorSignUp(db,doctor,(doctor_id)=>{
         console.log(doctor_id);
@@ -160,6 +162,11 @@ app.get('/doctor/account',doctorSessionChecker,(req,res)=>{
     //get profile info from session and show it in the profile page
     doctor_dao.getDoctorInformation(db,req.session.profile.id,(docInfo)=>{
         console.log(docInfo);
+        docInfo.wilaya = docInfo.wilaya ? docInfo.wilaya : 'not specified';
+        docInfo.address = docInfo.address ? docInfo.address : 'not specified';
+        docInfo.contact_num = docInfo.contact_num ? docInfo.contact_num : 'not specified';
+        docInfo.avg_time = docInfo.avg_time ? docInfo.avg_time : 'not specified';
+
         //res.send(doc_info);
         res.render('doctor_profile',docInfo);
     });

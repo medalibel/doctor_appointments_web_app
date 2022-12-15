@@ -118,7 +118,7 @@
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="/doctor/account">My Profile</a>
 						<a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
-						<a class="dropdown-item" href="settings.html">Settings</a>
+						<a class="dropdown-item" href="#">Settings</a>
 						<a class="dropdown-item" href="/logout">Logout</a>
 					</div>
                 </li>
@@ -126,10 +126,10 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="/doctor/account">My Profile</a>
+                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -139,13 +139,13 @@
                     <ul>
                         <li class="menu-title">Main</li>
                         <li>
-                            <a href="index-2.html"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                            <a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
                         <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                            <a href="#"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li>
                         <li>
-                            <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
                         <li>
                             <a href="/doctor/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
@@ -153,18 +153,12 @@
 						<li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Secraitaire </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a href="employees.html">subOption 1</a></li>
-								<li><a href="leaves.html">subOption 2</a></li>
-								<li><a href="holidays.html">subOption 3</a></li>
+								<li><a href="#">subOption 1</a></li>
+								<li><a href="#">subOption 2</a></li>
+								<li><a href="#">subOption 3</a></li>
 							</ul>
 						</li>
-						<li class="submenu">
-							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul>
-						</li>
+						
                         <li>
                             <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
                         </li>
@@ -209,14 +203,14 @@
                                             <div class="form-group form-focus">
                                                 <label class="focus-label">Birth Date</label>
                                                 <div class="cal-icon">
-                                                    <input class="form-control floating datetimepicker" type="text" value="05/06/1985">
+                                                    <input class="form-control floating" type="text" value="<%= birth_date %>">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group form-focus">
                                                 <label class="focus-label">Bio</label>
-                                                <input type="text" class="form-control floating" value="Hi i'am sara">
+                                                <input type="text" class="form-control floating" value="say something about yourself">
                                             </div>
                                         </div>
                                     </div>
