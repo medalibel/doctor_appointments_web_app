@@ -369,3 +369,7 @@ app.get('/logout',(req,res)=>{
 app.listen(3000,()=>{
     console.log('server listening on port 3000');
 });
+//-----added just for testing----
+app.get('/doctor/:id/profile',(req,res)=>{
+    res.render('doctor_details');
+});
