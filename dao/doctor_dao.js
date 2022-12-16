@@ -53,7 +53,7 @@ function getDetailedDoctorData(db,docId,callback){
 
 function getDoctorInformation(db,doctor_id,callback){
     
-    let query = "select doctor.id, doctor.email, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status,clinic_info.avg_time"+
+    let query = "select doctor.id, doctor.email, doctor.first_name, doctor.last_name, doctor.specialty, doctor.birth_date, doctor.sexe, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status,clinic_info.avg_time"+
         " FROM doctor INNER JOIN clinic_info ON doctor.id = clinic_info.doctor_id WHERE doctor.id =?";
     db.all(query,doctor_id,(err,rows)=>{
         if(err){
@@ -92,13 +92,15 @@ function doctorLogIn(db,email,callback){
 
 }
 function doctorSignUp(db,doctor,callback){
-    let query = 'INSERT INTO doctor(email,password,first_name,last_name,specialty) values(?,?,?,?,?)';
+    let query = 'INSERT INTO doctor(email,password,first_name,last_name,specialty,birth_date,sexe) values(?,?,?,?,?,?,?)';
     let doc_info = [
         doctor.email,
         doctor.password,
         doctor.first_name,
         doctor.last_name,
-        doctor.specialty
+        doctor.specialty,
+        doctor.birth_date,
+        doctor.sexe
     ];
     db.run(query,doc_info,function (err){
         if(err){
