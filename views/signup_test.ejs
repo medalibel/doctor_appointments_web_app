@@ -29,8 +29,14 @@
             </div>
 
             <!-- specialty -->
-            <input name="specialty" type="text" class="form-control mb-4" placeholder="Specialty">
             
+            <select class="select form-control  mb-4" name="specialty" size="1">
+                <% specialties.forEach(function(spec) { %>
+                    <option value="<%= spec.name %>"><%= spec.name %></option>
+                <% }); %>
+                
+            </select>
+
             <input name="birth_date" type="date" class="form-control mb-4">
             
             <select class="select form-control  mb-4" name="sexe" size="1">
