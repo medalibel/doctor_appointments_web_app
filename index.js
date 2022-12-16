@@ -66,7 +66,8 @@ app.get('/',(req,res)=>{
             });
             return;
         }
-        res.render('index',{doctors:rows});
+        console.log(rows);
+        res.render('index',{account:req.session.profile,doctors:rows});
     });
     
 });
@@ -85,7 +86,19 @@ app.get('/doctor/signup',(req,res)=>{
         res.redirect('/doctor/account');
         return;
     }
-    res.render('signup_test');
+    doctor_dao.getSpecialties(db,(err,specs)=>{
+        if(err){
+            res.status(500).send({
+                error:'internal server error'
+            });
+            return;
+        }
+        console.log(specs);
+        res.render('signup_test',{
+            specialties : specs
+        });
+    });
+    
 });
 app.post('/doctor/signup',(req,res)=>{
     let doctor={

@@ -1,6 +1,16 @@
 const isWorking=1;
 const notWorking=0;
 
+function getSpecialties(db,callback){
+    let query = 'SELECT * FROM specialty';
+    db.all(query,(err,res)=>{
+        if(err){
+            callback(err,null);
+            return;
+        }
+        callback(null,res);
+    });
+}
 function getAllDoctors(db,callback){
     //selct query should not select password or other private data
     let query = "select doctor.id, doctor.first_name, doctor.last_name, doctor.specialty, clinic_info.wilaya, clinic_info.address, clinic_info.contact_num,clinic_info.working_status"+
@@ -281,5 +291,6 @@ module.exports = {
     updateWorkingDay,
     changePassword,
     getWorkingDay,
-    getDoctorSchedule
+    getDoctorSchedule,
+    getSpecialties
 }

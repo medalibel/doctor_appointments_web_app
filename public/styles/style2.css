@@ -2559,7 +2559,7 @@ html.menu-opened body {
     font-size: 13px;
     color: #757575;
     margin-bottom: 5px;
-    min-height: 40px;
+    min-height: 20px;
 }
 .rating {
     list-style: none;

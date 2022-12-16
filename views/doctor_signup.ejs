@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/style.css">
+    <title>SignUp</title>
+</head>
+<body style="background-image: url('https://demo.w3layouts.com/demos_new/template_demo/28-09-2017/medico_appointment_form-demo_Free/556155583/web/images/m4.jpg')">
+    <div class="container w-50 bg-light bg-opacity-50 mt-5"></div>        
+        <div >
+            
+                <form class="text-center p-5" action="/doctor/account/edit" method="post">
+                    
+                    <div class="card-box">
+                        <h3 class="h3 mb-4">Doctor SignUup</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Clinic Address</label>
+                                    <input name="address" type="text" class="form-control floating" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Wilaya</label>
+                                    <input name="wilaya" type="text" class="form-control floating" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Contact Number</label>
+                                    <input name="contact_num" type="text" class="form-control floating" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-focus">
+                                    <label class="focus-label">Average Session Time</label>
+                                    <input name="avg_time" type="text" class="form-control floating" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-focus select-focus">
+                                    <label class="focus-label">Working status</label>
+                                    <select name="working_status" class="select form-control floating">
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Inactive</option>
+                                       
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center m-t-20">
+                            <button class="btn btn-primary submit-btn" type="submit">SignUp</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    <script src="/scripts/jquery-3.2.1.min.js"></script>
+	<script src="/scripts/popper.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/jquery.slimscroll.js"></script>
+    <script src="/scripts/app.js"></script>
+    <script src="/scripts/select2.min.js"></script>
+    <script src="/scripts/moment.min.js"></script>
+    <script src="/scripts/bootstrap-datetimepicker.min.js"></script>
+</body>
+</html>
