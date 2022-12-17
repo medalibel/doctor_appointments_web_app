@@ -72,6 +72,17 @@ app.get('/',(req,res)=>{
     
 });
 app.get('/doctor/profile/:id',(req,res)=>{
+    var docID = req.params.id;
+    doctor_dao.getDetailedDoctorData(db,docID,(err,row)=>{
+        if(err){
+            res.status(500).send({
+                error:"error"
+            });
+            return;
+        }
+        console.log(row);
+        res.render('doctor_details',{account:req.session.profile,doctor:row});
+    });
 
 });
 app.get('/signup',(req,res)=>{
@@ -381,8 +392,4 @@ app.get('/logout',(req,res)=>{
 
 app.listen(3000,()=>{
     console.log('server listening on port 3000');
-});
-//-----added just for testing----
-app.get('/doctor/:id/profile',(req,res)=>{
-    res.render('doctor_details');
 });
