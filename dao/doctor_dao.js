@@ -47,11 +47,11 @@ function getDetailedDoctorData(db,docId,callback){
             let days_query = 'select days.day, working_days.start, working_days.finish FROM '
             +'working_days inner join days where working_days.day_id = days.id and working_days.doctor_id=? order by day_id ASC';
             db.all(days_query,docId,(daysErr,days)=>{
-                if(days_err){
+                if(daysErr){
                     callback(daysErr,null);
                 }
                 else{
-                    let doc_info = docs[0];
+                    var doc_info = docs[0];
                     doc_info.working_days = days;
                     callback(null,doc_info);
                 }
@@ -292,5 +292,6 @@ module.exports = {
     changePassword,
     getWorkingDay,
     getDoctorSchedule,
-    getSpecialties
+    getSpecialties,
+    getDetailedDoctorData
 }
