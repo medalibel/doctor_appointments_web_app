@@ -31,20 +31,20 @@
 							<span class="status online"></span></span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-						<a class="dropdown-item" href="settings.html">Settings</a>
-						<a class="dropdown-item" href="login.html">Logout</a>
+						<a class="dropdown-item" href="/doctor/account">My Profile</a>
+						<a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
+						<a class="dropdown-item" href="#">Settings</a>
+						<a class="dropdown-item" href="/logout">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="/doctor/account">My Profile</a>
+                    <a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -60,10 +60,10 @@
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li>
                         <li>
-                            <a href="/doctor/schedule"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                            <a href="#"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
                         <li>
-                            <a href="/doctor/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                            <a  style="color: #009ce7;" href="/doctor/schedule"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
                         </li>
 						<li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Secraitaire </span> <span class="menu-arrow"></span></a>
@@ -88,12 +88,12 @@
                 <form action="/doctor/workingdays/add" method="post">
                    
                     <div class="card-box">
-                        <h3 class="card-title">Working days</h3>
-                        <div class="row">
+                        <h3 class="card-title">Add Working Day</h3>
+                        
                             <div class="col-md-6">
                                 <div class="form-group form-focus select-focus">
                                     <label class="focus-label">Day</label>
-                                    <select class="select form-control floating" name="day_id" size="1">
+                                    <select class="form-control floating" name="day_id" size="1">
                                         <option value="1">Sunday</option>
                                         <option value="2">Monday</option>
                                         <option value="3">Tuesday</option>
@@ -116,13 +116,14 @@
 									<input name="finish" type="time" class="form-control floating" value="">
                                 </div>
                             </div>
-                        </div>
+                        
                         <div class="text-left m-t-10">
-                            <button class="btn btn-primary submit-btn" type="submit">Ajouter</button>
+                            <button class="btn btn-primary submit-btn" type="submit">Add</button>
                         </div>
                     </div>
                 </form>
                 <div class="card-box">
+                    <h3 class="card-title">Working days</h3>
                     <table class="table">
                         <thead>
                           <tr>
@@ -140,7 +141,7 @@
                                     <td> <%= workingDay.finish %> </td>
                                     <td>
                                         <a href="/doctor/workingdays/update/<%= workingDay.day_id %>">update</a>
-                                        <a href="/doctor/workingdays/delete/<%= workingDay.day_id %>">delete</a>
+                                        <a style="color: red;" href="/doctor/workingdays/delete/<%= workingDay.day_id %>">delete</a>
                                     </td>
                                 </tr>
                                 

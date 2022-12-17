@@ -127,7 +127,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="/doctor/account">My Profile</a>
-                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    <a class="dropdown-item" href="/doctor/account/edit">Edit Profile</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
@@ -248,13 +248,13 @@
                             <div class="col-md-6">
                                 <div class="form-group form-focus select-focus">
                                     <label class="focus-label">Working status</label>
-                                    <select name="working_status" class="select form-control floating">
+                                    <select name="working_status" class="form-control floating">
                                         <% if(working_status === 1){ %>
-                                            <option value="1" selected>Active</option>
-                                            <option value="0">Inactive</option>
+                                            <option value="1" selected>Available</option>
+                                            <option value="0">Unavailable</option>
                                         <% }else if(working_status === 0){ %>
-                                            <option value="1" >Active</option>
-                                            <option value="0" selected>Inactive</option>
+                                            <option value="1" >Available</option>
+                                            <option value="0" selected>Unavailable</option>
                                         <% } %>
                                         
                                         

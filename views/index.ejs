@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/styles/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/style2.css">
-    <title>Index</title>
+    <title>Home</title>
 </head>
 <body>
 <!-- Main Wrapper -->
@@ -145,7 +145,7 @@
                         <% doctors.forEach(function(doc) { %>
                         <div class="profile-widget">
                             <div class="doc-img">
-                                <a href="/doctor/profile/id">
+                                <a href="/doctor/profile/<%= doc.id %>">
                                     <img class="img-fluid" alt="User Image" src="/assets/img/doc_male.jpg">
                                 </a>
                                 <a href="javascript:void(0)" class="fav-btn">
@@ -154,7 +154,7 @@
                             </div>
                             <div class="pro-content">
                                 <h3 class="title">
-                                    <a href="/doctor/profile/id"><%= doc.first_name %> <%= doc.last_name%></a> 
+                                    <a href="/doctor/profile/<%= doc.id %>"><%= doc.first_name %> <%= doc.last_name%></a> 
                                     <i class="fas fa-check-circle verified"></i>
                                 </h3>
                                 <p class="speciality"><%= doc.specialty %></p>
